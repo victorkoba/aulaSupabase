@@ -1,3 +1,4 @@
+// Miguel Francisco da Silva Sales Victor Luiz Koba Batista
 import React, { useState, useEffect } from 'react';
 import { View, Text, ActivityIndicator, StyleSheet, Alert, ScrollView } from 'react-native';
 import { Video } from 'expo-av';

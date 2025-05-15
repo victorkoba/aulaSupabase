@@ -1,4 +1,4 @@
-// metro.config.js
+// Miguel Francisco da Silva Sales Victor Luiz Koba Batista
 const { getDefaultConfig } = require('expo/metro-config');
 
 /** @type {import('expo/metro-config').MetroConfig} */

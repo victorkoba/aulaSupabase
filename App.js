@@ -1,3 +1,4 @@
+// Miguel Francisco da Silva Sales Victor Luiz Koba Batista
 import * as Notifications from "expo-notifications"
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";

@@ -1,3 +1,4 @@
+// Miguel Francisco da Silva Sales Victor Luiz Koba Batista
 import React, { useState } from 'react';
 import {
   View,
@@ -51,13 +52,23 @@ export default function UploadImagem() {
       const filename = `${authData.user.id}/${timestamp}.${fileExt}`;
       const filePath = `fotos-perfil/${filename}`;
 
-      const file = await fetch(imageUri);
-      const fileBlob = await file.blob();
+      // Buscar o arquivo como blob
+      const response = await fetch(imageUri);
+      const blob = await response.blob();
 
+      // Preparar o FormData para envio
+      const formData = new FormData();
+      formData.append('file', {
+        uri: imageUri,
+        name: `${timestamp}.${fileExt}`,
+        type: blob.type,
+      });
+
+      // Upload da imagem para o Supabase
       const { error: uploadError } = await supabase.storage
         .from('fotos-perfil')
-        .upload(filePath, fileBlob, {
-          contentType: fileBlob.type,
+        .upload(filePath, formData, {
+          contentType: blob.type,
           upsert: true,
         });
 

@@ -1,3 +1,4 @@
+// Miguel Francisco da Silva Sales Victor Luiz Koba Batista
 import React, { useState } from 'react';
 import { View, TextInput, Button, Alert, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { supabase } from '../../supabaseConfig';

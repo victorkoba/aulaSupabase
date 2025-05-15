@@ -1,3 +1,4 @@
+// Miguel Francisco da Silva Sales Victor Luiz Koba Batista
 import {createClient} from '@supabase/supabase-js';
 
 const SUPABASE_URL = 'https://hxyftzsadtarnmobdkdh.supabase.co';
