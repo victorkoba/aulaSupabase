@@ -1,7 +1,7 @@
 // Importações necessárias
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
-import { supabase } from './supabaseConfig';
+import { supabase } from '../../supabaseConfig';
 import { Alert } from 'react-native';
 
 // Função para escolher uma imagem

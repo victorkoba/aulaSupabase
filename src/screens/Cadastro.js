@@ -1,7 +1,7 @@
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import * as Notifications from 'expo-notifications';
-import { supabase } from './supabaseConfig';
+import { supabase } from '../../supabaseConfig';
 import { useState } from 'react';
 import { Alert } from 'react-native';
 

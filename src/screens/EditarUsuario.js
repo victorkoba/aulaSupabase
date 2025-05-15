@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, TextInput, Button, Image, Alert, ActivityIndicator } from "react-native";
-import { supabase } from "../supabaseConfig";
+import { supabase } from "../../supabaseConfig";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 

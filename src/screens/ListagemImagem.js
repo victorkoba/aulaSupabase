@@ -1,7 +1,7 @@
 // Importações necessárias
 import { useState, useEffect } from 'react';
 import { View, Text, Image, ActivityIndicator, StyleSheet } from 'react-native';
-import { supabase } from './supabaseConfig';
+import { supabase } from '../../supabaseConfig';
 import { Alert } from 'react-native';
 
 export default function ListarImagens() {
