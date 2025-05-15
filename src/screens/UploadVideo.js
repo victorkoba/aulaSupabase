@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import * as DocumentPicker from 'expo-document-picker';
 import { Picker } from '@react-native-picker/picker';
 import { supabase } from '../../supabaseConfig';
-import { View, Button, Alert, ActivityIndicator, StyleSheet, Text } from 'react-native';
+import React, { useState } from 'react';
+import { Alert } from 'react-native';
 
 export default function UploadVideo() {
   const [video, setVideo] = useState(null);
