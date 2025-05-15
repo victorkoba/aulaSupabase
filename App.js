@@ -1,20 +1,98 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import * as Notifications from "expo-notifications"
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
 });
+
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+import PaginaInical from "./src/screens/PaginaInicial";
+import Login from "./src/screens/Login";
+import Cadastro from "./src/screens/Cadastro";
+import EditarUsuario from "./src/screens/EditarUsuario";
+import ListarImagem from "./src/screens/ListagemImagem";
+import ListarVideo from "./src/screens/ListagemVideo";
+import UploadImagem from "./src/screens/UploadImagem";
+import UploadVideo from "./src/screens/UploadVideo";
+
+const Stack = createNativeStackNavigator();
+
+const App = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Cadastro"
+          component={Cadastro}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="PaginaInicial"
+          component={PaginaInical}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="EditarPerfil"
+          component={EditarPerfil}
+          options={{
+            title: "Editar Perfil",
+            headerShown: true,
+          }}
+        />
+        <Stack.Screen
+          name="EditarUsuario"
+          component={EditarUsuario}
+          options={{
+            title: "Editar Usuário",
+            headerShown: true,
+          }}
+        />
+        <Stack.Screen
+          name="ListarImagem"
+          component={ListarImagem}
+          options={{
+            title: "Listagem Imagens",
+            headerShown: true,
+          }}
+        />
+        <Stack.Screen
+          name="ListarVideo"
+          component={ListarVideo}
+          options={{
+            title: "Listagem Vídeos",
+            headerShown: true,
+          }}
+        />
+        <Stack.Screen
+          name="UploadImagem"
+          component={UploadImagem}
+          options={{
+            title: "Upload Imagens",
+            headerShown: true,
+          }}
+        />
+        <Stack.Screen
+          name="UploadVideo"
+          component={UploadVideo}
+          options={{
+            title: "Upload Vídeos",
+            headerShown: true,
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+export default App;
