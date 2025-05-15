@@ -25,7 +25,7 @@ const Stack = createNativeStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="Cadastro">
         <Stack.Screen
           name="Login"
           component={Login}
@@ -40,14 +40,6 @@ const App = () => {
           name="PaginaInicial"
           component={PaginaInical}
           options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="EditarPerfil"
-          component={EditarPerfil}
-          options={{
-            title: "Editar Perfil",
-            headerShown: true,
-          }}
         />
         <Stack.Screen
           name="EditarUsuario"

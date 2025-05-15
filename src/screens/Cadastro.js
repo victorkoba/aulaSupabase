@@ -1,4 +1,3 @@
-// Importações necessárias
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import * as Notifications from 'expo-notifications';
@@ -44,7 +43,7 @@ const registerUser = async (email, password, nome, imageUri) => {
         });
 
         const { data: uploadData, error: uploadError } = await supabase.storage
-            .from('profile-photos')
+            .from('fotos-perfil')
             .upload(`users/${userId}/${fileName}`, base64, {
                 upsert: true,
                 contentType: fileType,
@@ -52,13 +51,19 @@ const registerUser = async (email, password, nome, imageUri) => {
         if (uploadError) throw uploadError;
 
         const { data: publicUrlData } = supabase.storage
-            .from('profile-photos')
+            .from('fotos-perfil')
             .getPublicUrl(`users/${userId}/${fileName}`);
         const photoURL = publicUrlData.publicUrl;
 
         const { error: dbError } = await supabase
             .from('users')
-            .insert({ id: userId, nome, email, photo_url: photoURL });
+            .insert({
+                id_user: userId,
+                nome_user: nome,
+                email_user: email,
+                photoUrl_user: photoURL
+            });
+
         if (dbError) throw dbError;
 
         console.log('Usuário registrado com sucesso!');

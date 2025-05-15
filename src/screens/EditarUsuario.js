@@ -29,15 +29,15 @@ const EditarUsuario = ({ navigation }) => {
 
       const { data: userData, error: userError } = await supabase
         .from("users")
-        .select("nome, photo_url")
-        .eq("id", user.id)
+        .select("nome_user, email_user, photoUrl_user")
+        .eq("id_user", user.id)
         .single();
 
       if (userError) {
         console.error("Erro ao carregar dados do usuário:", userError);
       } else {
-        setNome(userData.nome || "");
-        setFotoAtual(userData.photo_url || "");
+        setNome(userData.nome_user || "");
+        setFotoAtual(userData.photoUrl_user || "");
       }
     };
 
@@ -63,7 +63,7 @@ const EditarUsuario = ({ navigation }) => {
     });
 
     const { data, error } = await supabase.storage
-      .from("avatars")
+      .from("fotos-perfil")
       .upload(fileName, Buffer.from(fileContent, "base64"), {
         contentType: "image/jpeg",
         upsert: true,
@@ -73,7 +73,7 @@ const EditarUsuario = ({ navigation }) => {
       throw new Error("Erro ao enviar imagem");
     }
 
-    const { data: publicUrl } = supabase.storage.from("avatars").getPublicUrl(fileName);
+    const { data: publicUrl } = supabase.storage.from("fotos-perfil").getPublicUrl(fileName);
     return publicUrl.publicUrl;
   };
 
@@ -91,8 +91,8 @@ const EditarUsuario = ({ navigation }) => {
       // Atualizar tabela users
       const { error: updateError } = await supabase
         .from("users")
-        .update({ nome, photo_url: photoUrl })
-        .eq("id", userId);
+        .update({ nome_user: nome, photoUrl_user: photoUrl })
+        .eq("id_user", userId)
 
       if (updateError) throw updateError;
 

@@ -1,4 +1,3 @@
-// Importações necessárias
 import * as DocumentPicker from 'expo-document-picker';
 import { Picker } from '@react-native-picker/picker';
 import { supabase } from './supabaseConfig';
@@ -72,3 +71,5 @@ const uploadVideo = async () => {
         setUploading(false);
     }
 };
+
+export default pickVideo;
