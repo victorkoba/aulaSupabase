@@ -1,13 +1,4 @@
 import * as Notifications from "expo-notifications"
-
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: false,
-  }),
-});
-
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -20,6 +11,14 @@ import ListarImagem from "./src/screens/ListagemImagem";
 import ListarVideo from "./src/screens/ListagemVideo";
 import UploadImagem from "./src/screens/UploadImagem";
 import UploadVideo from "./src/screens/UploadVideo";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
 
 const Stack = createNativeStackNavigator();
 
