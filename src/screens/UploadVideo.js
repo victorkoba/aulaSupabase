@@ -1,6 +1,6 @@
 import * as DocumentPicker from 'expo-document-picker';
 import { Picker } from '@react-native-picker/picker';
-import { supabase } from './supabaseConfig';
+import { supabase } from '../../supabaseConfig';
 import { useState } from 'react';
 import { Alert } from 'react-native';
 
