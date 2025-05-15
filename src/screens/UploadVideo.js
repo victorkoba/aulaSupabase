@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import * as DocumentPicker from 'expo-document-picker';
 import { Picker } from '@react-native-picker/picker';
 import { supabase } from '../../supabaseConfig';
-import { View, Text, ActivityIndicator, StyleSheet, Alert } from 'react-native';
+import { View, Text, ActivityIndicator, StyleSheet, Alert, Button } from 'react-native';
 
 export default function UploadVideo() {
   const [video, setVideo] = useState(null);
-  const [category, setCategory] = useState('matematica');
+  const [category, setCategory] = useState(null);
   const [isUploading, setUploading] = useState(false);
 
   // Função para selecionar vídeo
