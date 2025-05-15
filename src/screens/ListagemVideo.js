@@ -2,7 +2,7 @@
 import { Video } from 'expo-av';
 import { supabase } from '../../supabaseConfig';
 import { Picker } from '@react-native-picker/picker';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, ActivityIndicator, StyleSheet, Alert } from 'react-native';
 
 const bucketName = 'videos';
