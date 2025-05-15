@@ -1,5 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { View, TextInput, Button, Image, Alert, ActivityIndicator } from "react-native";
+import {Buffer} from 'buffer';
+import {
+  View,
+  TextInput,
+  Button,
+  Image,
+  Alert,
+  ActivityIndicator,
+  StyleSheet,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import { supabase } from "../../supabaseConfig";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
@@ -62,7 +74,7 @@ const EditarUsuario = ({ navigation }) => {
       encoding: FileSystem.EncodingType.Base64,
     });
 
-    const { data, error } = await supabase.storage
+    const { error } = await supabase.storage
       .from("fotos-perfil")
       .upload(fileName, Buffer.from(fileContent, "base64"), {
         contentType: "image/jpeg",
@@ -83,26 +95,22 @@ const EditarUsuario = ({ navigation }) => {
     try {
       let photoUrl = fotoAtual;
 
-      // Se for uma nova imagem local, envia para o Supabase Storage
       if (!fotoAtual.startsWith("http")) {
         photoUrl = await uploadFoto();
       }
 
-      // Atualizar tabela users
       const { error: updateError } = await supabase
         .from("users")
         .update({ nome_user: nome, photoUrl_user: photoUrl })
-        .eq("id_user", userId)
+        .eq("id_user", userId);
 
       if (updateError) throw updateError;
 
-      // Atualizar e-mail
       if (novoEmail) {
         const { error: emailError } = await supabase.auth.updateUser({ email: novoEmail });
         if (emailError) throw emailError;
       }
 
-      // Atualizar senha
       if (novaSenha && senhaAtual) {
         const { error: passError } = await supabase.auth.updateUser({ password: novaSenha });
         if (passError) throw passError;
@@ -118,24 +126,116 @@ const EditarUsuario = ({ navigation }) => {
   };
 
   return (
-    <View style={{ padding: 20 }}>
-      {fotoAtual ? (
-        <Image source={{ uri: fotoAtual }} style={{ width: 100, height: 100, borderRadius: 50 }} />
-      ) : null}
-      <Button title="Selecionar Foto" onPress={selecionarFoto} />
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.titulo}>Editar Perfil</Text>
 
-      <TextInput placeholder="Nome" value={nome} onChangeText={setNome} />
-      <TextInput placeholder="Novo E-mail" value={novoEmail} onChangeText={setNovoEmail} keyboardType="email-address" />
-      <TextInput placeholder="Senha Atual" value={senhaAtual} onChangeText={setSenhaAtual} secureTextEntry />
-      <TextInput placeholder="Nova Senha" value={novaSenha} onChangeText={setNovaSenha} secureTextEntry />
+      {fotoAtual && (
+        <Image source={{ uri: fotoAtual }} style={styles.foto} />
+      )}
+
+      <TouchableOpacity style={styles.fotoBtn} onPress={selecionarFoto}>
+        <Text style={styles.fotoBtnText}>Selecionar Nova Foto</Text>
+      </TouchableOpacity>
+
+      <TextInput
+        placeholder="Nome"
+        value={nome}
+        onChangeText={setNome}
+        style={styles.input}
+        placeholderTextColor="#999"
+      />
+      <TextInput
+        placeholder="Novo E-mail"
+        value={novoEmail}
+        onChangeText={setNovoEmail}
+        keyboardType="email-address"
+        style={styles.input}
+        placeholderTextColor="#999"
+      />
+      <TextInput
+        placeholder="Senha Atual"
+        value={senhaAtual}
+        onChangeText={setSenhaAtual}
+        secureTextEntry
+        style={styles.input}
+        placeholderTextColor="#999"
+      />
+      <TextInput
+        placeholder="Nova Senha"
+        value={novaSenha}
+        onChangeText={setNovaSenha}
+        secureTextEntry
+        style={styles.input}
+        placeholderTextColor="#999"
+      />
 
       {isLoading ? (
-        <ActivityIndicator />
+        <ActivityIndicator size="large" color="#007AFF" style={{ marginTop: 20 }} />
       ) : (
-        <Button title="Salvar Alterações" onPress={salvarAlteracoes} />
+        <TouchableOpacity style={styles.btnSalvar} onPress={salvarAlteracoes}>
+          <Text style={styles.btnText}>Salvar Alterações</Text>
+        </TouchableOpacity>
       )}
-    </View>
+    </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 25,
+    flexGrow: 1,
+    backgroundColor: "#f8f9fa",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  titulo: {
+    fontSize: 24,
+    fontWeight: "700",
+    marginBottom: 20,
+    color: "#222",
+  },
+  foto: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    marginBottom: 15,
+  },
+  fotoBtn: {
+    backgroundColor: "#6c757d",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginBottom: 20,
+  },
+  fotoBtnText: {
+    color: "#fff",
+    fontWeight: "600",
+  },
+  input: {
+    width: "100%",
+    backgroundColor: "#fff",
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 12,
+    fontSize: 16,
+    marginBottom: 15,
+    color: "#333",
+  },
+  btnSalvar: {
+    backgroundColor: "#007AFF",
+    paddingVertical: 14,
+    paddingHorizontal: 30,
+    borderRadius: 8,
+    marginTop: 10,
+    elevation: 5,
+  },
+  btnText: {
+    color: "#fff",
+    fontWeight: "600",
+    fontSize: 16,
+    textAlign: "center",
+  },
+});
 
 export default EditarUsuario;

@@ -1,4 +1,3 @@
-// Victor Luiz Koba Batista
 import React from "react";
 import {
   View,
@@ -6,108 +5,112 @@ import {
   Pressable,
   StyleSheet,
   ScrollView,
-  ImageBackground,
+  Alert,
 } from "react-native";
 
-
-const PaginaInicial = ({ navigation }) => {
+export default function PaginaInicial({ navigation }) {
   const sair = () => {
-    alert('Você está saindo da conta');
-    navigation.navigate("Login")
+    Alert.alert('Sair', 'Você está saindo da conta.');
+    navigation.navigate("Login");
   };
+
   return (
-      <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.box}>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.titulo}>Bem-vindo!</Text>
 
-          <Text style={styles.titulo}>Navegações</Text>
+      <View style={styles.card}>
 
-          <View style={styles.cartao}>
+        <Pressable
+          style={styles.botaoPress}
+          onPress={() => navigation.navigate("EditarUsuario")}
+        >
+          <Text style={styles.botaoText}>Editar Perfil</Text>
+        </Pressable>
 
-            <Pressable 
-            style={styles.botaoPress}
-            onPress={() => navigation.navigate("EditarUsuário")}
-            >
-              <Text style={styles.botao}> Editar Perfil </Text>
-            </Pressable>
+        <Pressable
+          style={styles.botaoPress}
+          onPress={() => navigation.navigate("ListarImagem")}
+        >
+          <Text style={styles.botaoText}>Listar Imagens</Text>
+        </Pressable>
 
-            <Pressable 
-            style={styles.botaoPress}
-            onPress={() => navigation.navigate("ListagemImagem")}
-            >
-              <Text style={styles.botao}> Listar Imagens </Text>
-            </Pressable>
-            <Pressable 
-            style={styles.botaoPress}
-            onPress={() => navigation.navigate("ListagemVideo")}
-            >
-              <Text style={styles.botao}> Listar Vídeos </Text>
-            </Pressable>
-            <Pressable 
-            style={styles.botaoPress}
-            onPress={() => navigation.navigate("UploadImagem")}
-            >
-              <Text style={styles.botao}> Upload Imagens </Text>
-            </Pressable>
-            <Pressable 
-            style={styles.botaoPress}
-            onPress={() => navigation.navigate("UploadVideo")}
-            >
-              <Text style={styles.botao}> Upload Vídeos </Text>
-            </Pressable>
-          </View>
-        </View>
-      </ScrollView>
+        <Pressable
+          style={styles.botaoPress}
+          onPress={() => navigation.navigate("ListarVideo")}
+        >
+          <Text style={styles.botaoText}>Listar Vídeos</Text>
+        </Pressable>
+
+        <Pressable
+          style={styles.botaoPress}
+          onPress={() => navigation.navigate("UploadImagem")}
+        >
+          <Text style={styles.botaoText}>Upload Imagens</Text>
+        </Pressable>
+
+        <Pressable
+          style={styles.botaoPress}
+          onPress={() => navigation.navigate("UploadVideo")}
+        >
+          <Text style={styles.botaoText}>Upload Vídeos</Text>
+        </Pressable>
+
+        <Pressable
+          style={[styles.botaoPress, styles.botaoSair]}
+          onPress={sair}
+        >
+          <Text style={styles.botaoText}>Sair</Text>
+        </Pressable>
+      </View>
+    </ScrollView>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
-    justifyContent: "center",
-  },
   container: {
     flexGrow: 1,
+    backgroundColor: "#f8f9fa",
+    padding: 25,
     alignItems: "center",
     justifyContent: "center",
-    padding: 20,
-  },
-  box: {
-    width: "100%",
-    backgroundColor: "#fff", 
-    padding: 20,
-    borderRadius: 10,
-    alignItems: "center",
   },
   titulo: {
-    fontSize: 22,
-    fontWeight: "bold",
-    color: "#333",
-    textAlign: "center",
-    marginBottom: 20,
+    fontSize: 28,
+    fontWeight: "700",
+    color: "#222",
+    marginBottom: 25,
   },
-  cartao: {
-    backgroundColor: "#e3e3e3",
-    padding: 15,
-    borderRadius: 8,
-    marginBottom: 10,
-    alignItems: "center",
+  subtitulo: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: "#007AFF",
+    marginBottom: 15,
+    textAlign: "center",
+  },
+  card: {
     width: "100%",
+    backgroundColor: "#fff",
+    padding: 25,
+    borderRadius: 12,
+    shadowColor: "#007AFF",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 5,
   },
   botaoPress: {
-    width: "100%",
-    backgroundColor: "#00a3ff",
-    padding: 10,
-    borderRadius: 5,
-    marginVertical: 5,
+    backgroundColor: "#007AFF",
+    paddingVertical: 12,
+    borderRadius: 8,
+    marginVertical: 8,
     alignItems: "center",
   },
-  botao: {
-    fontSize: 18,
-    fontWeight: "bold",
+  botaoSair: {
+    backgroundColor: "#dc3545", // vermelho para sair
+  },
+  botaoText: {
     color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
   },
 });
-
-export default PaginaInicial;
