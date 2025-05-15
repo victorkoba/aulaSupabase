@@ -2,14 +2,20 @@ import React, { useState } from 'react';
 import * as DocumentPicker from 'expo-document-picker';
 import { Picker } from '@react-native-picker/picker';
 import { supabase } from '../../supabaseConfig';
-import { View, Text, ActivityIndicator, StyleSheet, Alert, Button } from 'react-native';
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  StyleSheet,
+  Alert,
+  TouchableOpacity,
+} from 'react-native';
 
 export default function UploadVideo() {
   const [video, setVideo] = useState(null);
   const [category, setCategory] = useState(null);
   const [isUploading, setUploading] = useState(false);
 
-  // Função para selecionar vídeo
   const pickVideo = async () => {
     try {
       const result = await DocumentPicker.getDocumentAsync({
@@ -18,7 +24,6 @@ export default function UploadVideo() {
       });
 
       if (result.type === 'success') {
-        // Ajustando dados do vídeo selecionado
         const selectedVideo = {
           uri: result.uri,
           name: result.name || 'video.mp4',
@@ -34,7 +39,6 @@ export default function UploadVideo() {
     }
   };
 
-  // Função para fazer upload do vídeo
   const uploadVideo = async () => {
     if (!video || !category) {
       Alert.alert('Erro', 'Por favor, selecione um vídeo e uma categoria.');
@@ -46,17 +50,14 @@ export default function UploadVideo() {
       const timestamp = new Date().getTime();
       const filePath = `${category}/${timestamp}-${video.name}`;
 
-      // Pega a sessão atual do usuário (autenticado)
       const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
       if (sessionError || !sessionData.session) {
         throw new Error('Usuário não autenticado.');
       }
 
-      // Converte URI em blob para upload
       const response = await fetch(video.uri);
       const blob = await response.blob();
 
-      // Faz o upload para o Supabase Storage
       const { error: uploadError } = await supabase.storage
         .from('videos')
         .upload(filePath, blob, {
@@ -70,7 +71,6 @@ export default function UploadVideo() {
       Alert.alert('Sucesso', 'Vídeo enviado com sucesso!');
       console.log('URL pública do vídeo:', urlData.publicUrl);
 
-      // Limpa estado após upload
       setVideo(null);
     } catch (error) {
       console.error('Erro no upload:', error);
@@ -82,24 +82,37 @@ export default function UploadVideo() {
 
   return (
     <View style={styles.container}>
-      <Button title="Selecionar Vídeo" onPress={pickVideo} />
-      {video && <Text style={styles.videoName}>Vídeo selecionado: {video.name}</Text>}
+      <Text style={styles.title}>Upload de Vídeo</Text>
 
-      <Picker
-        selectedValue={category}
-        onValueChange={setCategory}
-        style={styles.picker}
-      >
-        <Picker.Item label="Matemática" value="matematica" />
-        <Picker.Item label="Física" value="fisica" />
-        <Picker.Item label="Química" value="quimica" />
-        {/* Adicione mais categorias aqui */}
-      </Picker>
+      <TouchableOpacity style={styles.button} onPress={pickVideo}>
+        <Text style={styles.buttonText}>Selecionar Vídeo</Text>
+      </TouchableOpacity>
+
+      {video && <Text style={styles.videoName}>🎬 {video.name}</Text>}
+
+      <Text style={styles.label}>Categoria:</Text>
+      <View style={styles.pickerWrapper}>
+        <Picker
+          selectedValue={category}
+          onValueChange={setCategory}
+          style={styles.picker}
+        >
+          <Picker.Item label="Selecione uma categoria" value={null} />
+          <Picker.Item label="Matemática" value="matematica" />
+          <Picker.Item label="Física" value="fisica" />
+          <Picker.Item label="Química" value="quimica" />
+        </Picker>
+      </View>
 
       {isUploading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color="#007AFF" style={{ marginTop: 20 }} />
       ) : (
-        <Button title="Enviar Vídeo" onPress={uploadVideo} />
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: '#28a745' }]}
+          onPress={uploadVideo}
+        >
+          <Text style={styles.buttonText}>Enviar Vídeo</Text>
+        </TouchableOpacity>
       )}
     </View>
   );
@@ -107,13 +120,52 @@ export default function UploadVideo() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    flex: 1,
+    backgroundColor: '#f8f9fa',
+    padding: 25,
+    justifyContent: 'center',
   },
-  picker: {
-    marginVertical: 20,
+  title: {
+    fontSize: 22,
+    fontWeight: '700',
+    color: '#222',
+    textAlign: 'center',
+    marginBottom: 25,
+  },
+  button: {
+    backgroundColor: '#007AFF',
+    paddingVertical: 14,
+    borderRadius: 8,
+    marginBottom: 20,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
   },
   videoName: {
-    marginVertical: 10,
-    fontWeight: 'bold',
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#333',
+    textAlign: 'center',
+    marginBottom: 15,
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: '500',
+    marginBottom: 5,
+    color: '#444',
+  },
+  pickerWrapper: {
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    marginBottom: 25,
+  },
+  picker: {
+    height: 50,
+    width: '100%',
   },
 });
