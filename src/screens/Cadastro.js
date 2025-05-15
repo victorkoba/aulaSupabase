@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Image, Alert, StyleSheet } from 'react-native';
+import { View, TextInput, Button, Image, Alert,  } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import { supabase } from '../../supabaseConfig';
 
-export default function CadastroUsuario() {
+export default function CadastroUsuario({ navigation }) {  // Recebe navigation
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -72,7 +72,12 @@ export default function CadastroUsuario() {
 
       if (dbError) throw dbError;
 
-      Alert.alert('Sucesso', 'Usuário registrado com sucesso!');
+      Alert.alert('Sucesso', 'Usuário registrado com sucesso!', [
+        {
+          text: 'OK',
+          onPress: () => navigation.navigate('Login'),  // Navega para Login após OK
+        },
+      ]);
     } catch (error) {
       Alert.alert('Erro', error.message);
     }
