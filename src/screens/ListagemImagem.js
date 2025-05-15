@@ -20,7 +20,7 @@ export default function ListarImagens() {
                 return;
             }
 
-            const userId = user.id;
+        const userId = user.user.id; // Correção aqui
 
             // Listar arquivos da pasta 'imagens'
             const { data, error } = await supabase.storage.from('imagens').list('galeria/' + userId + '/', {
